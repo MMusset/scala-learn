@@ -25,7 +25,7 @@ lazy val dependencies         = Seq(
 
 lazy val root                 = (project in file("."))
   .settings(
-    name                          := "scala_learn",
+    name                          := "scalalearn",
     scalaVersion                  := "2.13.7",
     version                       := "0.0.1-SNAPSHOT",
     fork                          := true,
