@@ -1,0 +1,12 @@
+.idea/
+.ideavimrc
+.bloop/
+.metals/
+project/project
+project/target
+project/.bloop/
+target/
+project/metals.sbt
+/.bsp/
+/target
+.DS_Store
