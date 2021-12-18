@@ -1,7 +1,7 @@
 package com.micahmusset.scalalearn.sttp
 
 import cats.effect.{ ContextShift, ExitCode, IO, IOApp }
-import com.micahmusset.scalalearn.sttp.examples.GetRequest
+import com.micahmusset.scalalearn.sttp.examples.PostRequest
 import sttp.client3.SttpBackend
 import sttp.client3.armeria.cats.ArmeriaCatsBackend
 
@@ -13,7 +13,7 @@ object Main extends IOApp {
     implicit val backend: SttpBackend[IO, Any]  = ArmeriaCatsBackend.apply[IO]()
 
     val program = for {
-      _ <- GetRequest.make
+      _ <- PostRequest.make
     } yield ()
 
     program.as(ExitCode.Success)
