@@ -3,7 +3,9 @@ package com.micahmusset.scalalearn.sttp.backends.catsSlf4jLoggingBackend.loggerc
 import sttp.client3.{Request, Response}
 
 trait LoggerConfig {
-  def message[T, R](request: Request[T, R], response: Response[T]): String
-  def requestContext[T, R](request: Request[T, R], response: Response[T]): Map[String, String]
-  def responseContext[T, R](request: Request[T, R], response: Response[T]): Map[String, String]
+  def requestMessage[T, R](request: Request[T, R]): String
+  def responseMessage[T, R](request: Request[T, R], response: Response[T]): String
+
+  def requestContext[T, R](request: Request[T, R]): Map[String, String]
+  def responseContext[T](response: Response[T]): Map[String, String]
 }

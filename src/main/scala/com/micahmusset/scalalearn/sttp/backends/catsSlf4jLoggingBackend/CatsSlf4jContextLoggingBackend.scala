@@ -11,15 +11,19 @@ import sttp.monad.MonadError
 
 final class CatsSlf4jContextLoggingBackend[F[_]: Concurrent, +P] private (delegate: SttpBackend[F, P])(
     logger: StructuredLogger[F],
-    config: LoggerConfig
+    config: LoggerConfig,
+    showRequestOnResponseLog: Boolean
 ) extends SttpBackend[F, P] {
 
   override def send[T, R >: P with Effect[F]](request: Request[T, R]): F[Response[T]] =
     for {
+      _        <- StructuredLogger
+                    .withContext(logger)(config.requestContext(request))
+                    .info(config.requestMessage(request))
       response <- delegate.send(request)
       _        <- StructuredLogger
-                    .withContext(logger)(context(request, response))
-                    .info(config.message(request, response))
+                    .withContext(logger)(responseContext(request, response))
+                    .info(config.responseMessage(request, response))
     } yield response
 
   override def close(): F[Unit] = delegate.close()
@@ -30,7 +34,11 @@ final class CatsSlf4jContextLoggingBackend[F[_]: Concurrent, +P] private (delega
    */
   override def responseMonad: MonadError[F] = new CatsMonadAsyncError[F]
 
-  private def context[T, R](request: Request[T, R], response: Response[T]): Map[String, String] =
-    config.requestContext(request, response) ++ config.responseContext(request, response)
+  private def responseContext[T, R](request: Request[T, R], response: Response[T]): Map[String, String] = {
+    if (showRequestOnResponseLog)
+      config.requestContext(request) ++ config.responseContext(response)
+    else
+      config.responseContext(response)
+  }
 
 }
