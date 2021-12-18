@@ -1,4 +1,5 @@
 import cats.effect.{ContextShift, IO}
+import cats.implicits.catsSyntaxApplicativeId
 import sttp.client3._
 import sttp.client3.armeria.cats.ArmeriaCatsBackend
 import sttp.model.Header
@@ -45,3 +46,38 @@ basicRequest.contentType("application/json")
 basicRequest.contentType("application/json", "iso-8859-1")
 basicRequest.contentLength(128)
 basicRequest.acceptEncoding("gzip, deflate")
+
+// =====================================================================================================================
+// Basic authentication
+
+// Username and password are encoded using Base64:
+val username = "mary"
+val password = "p@assword"
+
+val response = basicRequest.auth.basic(username, password)
+response.headers
+// Vector(..., Authorization: Basic bWFyeTpwQGFzc3dvcmQ=)
+
+// A bearer token:
+val token = "zMDjRfl76ZC9Ub0wnz4XsNiRVBChTYbJcE3F"
+
+val response1 = basicRequest.auth.bearer(token)
+response.headers
+// Vector(..., Authorization: Basic bWFyeTpwQGFzc3dvcmQ=)
+
+// =====================================================================================================================
+// Digest authentication
+
+val authBackend = new DigestAuthenticationBackend(backend)
+
+val secureDigestRequest = basicRequest.auth
+  .digest(username, password)
+  .get(uri"http://httpbin.org/ip")
+  .send(authBackend)
+
+val program1: IO[Unit] = for {
+  response <- secureDigestRequest
+  _        <- println(response.body).pure[IO]
+} yield ()
+
+program1.unsafeRunSync()
