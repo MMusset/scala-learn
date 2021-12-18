@@ -31,7 +31,7 @@ program.unsafeRunSync()
 // Example 2
 val world = "world"
 
-val request2: Request[Either[String, String], Any] = basicRequest
+val request2 = basicRequest
   .body("Hello, world!")
   .post(uri"https://httpbin.org/post?hello=$world")
 
@@ -50,7 +50,7 @@ program.unsafeRunSync()
 // Example 3
 val params = Map("hello" -> "world")
 
-val request3: Request[Either[String, String], Any] = basicRequest
+val request3 = basicRequest
   .body("Hello, world!")
   .post(uri"https://httpbin.org/post?$params")
 
