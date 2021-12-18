@@ -13,7 +13,7 @@ trait LoggerConfig {
   def context[T, R](request: Request[T, R], response: Response[T]): Map[String, String]
 }
 
-final class DefaultLoggerMessage extends LoggerConfig {
+final class DefaultLoggerConfig extends LoggerConfig {
   override def message[T, R](request: Request[T, R], response: Response[T]): String = {
     val path = request.uri.copy(querySegments = List.empty).toString()
 
