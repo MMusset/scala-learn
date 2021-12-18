@@ -6,6 +6,8 @@ import sttp.client3._
 
 object PostRequest {
 
+  final case class Action(value: String)
+
   def make(implicit contextShift: ContextShift[IO], backend: SttpBackend[IO, Any]): IO[Unit] = {
     val requiredParams = Map(
       "hello" -> "world",
@@ -13,13 +15,13 @@ object PostRequest {
     )
 
     val someOptionalParams = Map(
-      "sleep" -> Some("bed"),
-      "eat"   -> Some("truffle")
+      "sleep" -> Some(Action("bed")).map(_.value),
+      "eat"   -> Some(Action("truffle")).map(_.value)
     )
 
     val noneOptionalParams = Map(
-      "sleep" -> None,
-      "eat"   -> None
+      "sleep" -> None.map(_.toString),
+      "eat"   -> None.map(_.toString)
     )
 
     val paramsWithSomeOptionalParams = requiredParams ++ someOptionalParams
@@ -94,7 +96,7 @@ object PostRequest {
 
     val request = basicRequest
       .body("Hello, world!")
-      .post(uri2)
+      .post(uri5)
 
     for {
       response <- request.send(backend)
