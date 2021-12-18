@@ -9,7 +9,7 @@ import sttp.client3.impl.cats.CatsMonadAsyncError
 import sttp.client3.{ Request, Response, SttpBackend }
 import sttp.monad.MonadError
 
-final class CatsSlf4jLoggingBackend[F[_]: Concurrent, +P] private (delegate: SttpBackend[F, P])(
+final class CatsSlf4jContextLoggingBackend[F[_]: Concurrent, +P] private (delegate: SttpBackend[F, P])(
     logger: StructuredLogger[F],
     config: LoggerConfig
 ) extends SttpBackend[F, P] {

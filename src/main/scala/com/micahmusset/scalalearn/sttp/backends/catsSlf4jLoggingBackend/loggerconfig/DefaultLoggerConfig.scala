@@ -22,13 +22,11 @@ final class DefaultLoggerConfig extends LoggerConfig {
     )
   }
 
-  override def responseContext[T, R](request: Request[T, R], response: Response[T]): Map[String, String] = {
-    val responseContext =
-      Map(
-        "http.response.code"    -> ???,
-        "http.response.body"    -> ???,
-        "http.response.headers" -> ???
-      )
-  }
+  override def responseContext[T, R](request: Request[T, R], response: Response[T]): Map[String, String] =
+    Map(
+      "http.response.code"    -> ???,
+      "http.response.body"    -> ???,
+      "http.response.headers" -> ???
+    )
 
 }
