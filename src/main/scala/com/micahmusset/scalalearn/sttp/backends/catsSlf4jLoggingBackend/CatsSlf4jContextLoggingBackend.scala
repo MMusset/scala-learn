@@ -34,11 +34,10 @@ final class CatsSlf4jContextLoggingBackend[F[_]: Concurrent, +P] private (delega
    */
   override def responseMonad: MonadError[F] = new CatsMonadAsyncError[F]
 
-  private def responseContext[T, R](request: Request[T, R], response: Response[T]): Map[String, String] = {
+  private def responseContext[T, R](request: Request[T, R], response: Response[T]): Map[String, String] =
     if (showRequestOnResponseLog)
       config.requestContext(request) ++ config.responseContext(response)
     else
       config.responseContext(response)
-  }
 
 }
