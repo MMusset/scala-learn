@@ -68,9 +68,28 @@ endpoint3[IO].run(request2)
 val example2: Request => IO[Response] = endpoint1[IO]
 val example2Run                       = endpoint1[IO](request1)
 
-// And the answer is I could
+// And the answer is I could, but would I want to?
 
-// Lets make a type aliases
+// Lets see what happens when I want to map over the Response
+
+val route1: Kleisli[IO, Request, Response] = endpoint3[IO]
+val result1: Kleisli[IO, Request, String]  = route1.map((response: Response) => response.amount)
+
+val route2: Request => IO[Response] = endpoint1[IO]
+val result2: Request => IO[String]  = route2.map((responseIO: IO[Response]) => responseIO.flatMap((response: Response) => response.amount.pure[IO]))
+
+// Performing operations on a class that represents a transformation from A to B in context F is easier than,
+// performing operations on a function from A to B in context F.
+
+// Why? Because Kleisli implements many methods such as .map in a desired implementation.
+//
+// final case class Kleisli[F[_], -A, B]
+//
+// def map[C](f: B => C)
+//    Kleisli(a => F.map(run(a))(f))
+
+// ===================================================================================================================
+// Type Alias
 type HttpApp1[F[_]] = Kleisli[F, Request, Response]
 type HttpApp2[F[_]] = Request => F[Response]
 
@@ -78,9 +97,9 @@ type HttpApp2[F[_]] = Request => F[Response]
 // Program1
 def mountHttpApp1[F[_]](service: HttpApp1[F], prefix: String): F[Response] = service.run(request1)
 
-val route1: HttpApp1[IO] = example1
+val httpApp1: HttpApp1[IO] = example1
 
-val program1 = mountHttpApp1(route1, "/")
+val program1 = mountHttpApp1(httpApp1, "/")
 
 program1.unsafeRunSync()
 
@@ -88,8 +107,8 @@ program1.unsafeRunSync()
 // Program2
 def mountHttpApp2[F[_]](service: HttpApp2[F], prefix: String): F[Response] = service(request2)
 
-val route2: HttpApp2[IO] = example2
+val httpApp2: HttpApp2[IO] = example2
 
-val program2 = mountHttpApp2(route2, "/")
+val program2 = mountHttpApp2(httpApp2, "/")
 
 program2.unsafeRunSync()
