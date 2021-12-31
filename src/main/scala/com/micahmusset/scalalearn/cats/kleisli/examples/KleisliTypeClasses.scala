@@ -1,16 +1,10 @@
 package com.micahmusset.scalalearn.cats.kleisli.examples
 
-import cats.Applicative
+import cats.data.Kleisli
 import cats.implicits._
+import cats.{ ~>, Applicative }
 
 object KleisliTypeClasses {
-
-  import cats.data.Kleisli
-  import cats.~>
-
-  // KleisliTypeClasses
-
-  // TODO: TracedHttpApp
 
   // Domain
   final case class Request[F[_]](id: String) {
@@ -75,12 +69,12 @@ object KleisliTypeClasses {
       override def runTrace(tracedEndpoint: TracedHttpApp[F]): HttpApp[F] =
         Kleisli { requestF: Request[F] =>
           val requestContextF: Request[Kleisli[F, (Context[F], Span[F]), *]] = liftRequestF(requestF)
-          val contextToResponse                                              = tracedEndpoint.run(requestContextF)
+          val contextToResponse: ContextF[F, Response[ContextF[F, *]]]       = tracedEndpoint.run(requestContextF)
 
-          val contextAndSpan = makeContextAndSpan[F]
+          val contextAndSpan: (Context[F], Span[F]) = makeContextAndSpan[F]
 
           for {
-            tracedResponse <- contextToResponse.run(contextAndSpan)
+            tracedResponse: Response[ContextF[F, *]] <- contextToResponse.run(contextAndSpan)
           } yield liftContextF(tracedResponse, contextAndSpan)
         }
 

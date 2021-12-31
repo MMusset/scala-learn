@@ -1,27 +1,32 @@
-
 import sbt.Keys.scalacOptions
 
 val CirceVersion           = "0.14.1"
 val EnumeratumVersion      = "1.7.0"
+val Http4sVersion          = "0.22.8"
 val ScalaCheckVersion      = "1.15.4"
 val ScalaCheckFakerVersion = "7.0.0"
 val ScalaTestVersion       = "3.2.10"
 val ScalaTestPlusVersion   = "3.1.0.0-RC2"
 val SttpClientVersion      = "3.3.18"
-val Log4CatsVersion            = "1.1.1"
+val Log4CatsVersion        = "1.1.1"
+val ConfigVersion          = "1.4.1"
+val LogbackVersion         = "1.2.10"
 
 lazy val dependencies         = Seq(
-  "com.beachape"                  %% "enumeratum"               % EnumeratumVersion   ,
-  "com.softwaremill.sttp.client3" %% "armeria-backend-cats-ce2" % SttpClientVersion   ,
-  "com.softwaremill.sttp.client3" %% "circe"                    % SttpClientVersion   ,
-  "com.softwaremill.sttp.client3" %% "core"                     % SttpClientVersion   ,
-  "ch.qos.logback"                 % "logback-classic"          % "1.2.5"             ,
-  "com.typesafe"                   % "config"                   % "1.4.1"             ,
-  "io.circe"                      %% "circe-generic"            % CirceVersion        ,
-  "io.circe"                      %% "circe-generic-extras"     % CirceVersion        ,
-  "io.circe"                      %% "circe-literal"            % CirceVersion        ,
-  "io.circe"                      %% "circe-parser"             % CirceVersion        ,
-  "io.chrisdavenport"             %% "log4cats-slf4j"           % Log4CatsVersion     ,
+  "com.beachape"                  %% "enumeratum"               % EnumeratumVersion,
+  "com.softwaremill.sttp.client3" %% "armeria-backend-cats-ce2" % SttpClientVersion,
+  "com.softwaremill.sttp.client3" %% "circe"                    % SttpClientVersion,
+  "com.softwaremill.sttp.client3" %% "core"                     % SttpClientVersion,
+  "ch.qos.logback"                 % "logback-classic"          % LogbackVersion   ,
+  "com.typesafe"                   % "config"                   % ConfigVersion    ,
+  "io.circe"                      %% "circe-generic"            % CirceVersion     ,
+  "io.circe"                      %% "circe-generic-extras"     % CirceVersion     ,
+  "io.circe"                      %% "circe-literal"            % CirceVersion     ,
+  "io.circe"                      %% "circe-parser"             % CirceVersion     ,
+  "io.chrisdavenport"             %% "log4cats-slf4j"           % Log4CatsVersion  ,
+  "org.http4s"                    %% "http4s-dsl"               % Http4sVersion    ,
+  "org.http4s"                    %% "http4s-blaze-server"      % Http4sVersion    ,
+  "org.http4s"                    %% "http4s-blaze-client"      % Http4sVersion    ,
   "org.scalacheck"                %% "scalacheck"               % ScalaCheckVersion
 )
 
