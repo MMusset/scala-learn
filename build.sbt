@@ -47,5 +47,13 @@ lazy val root                 = (project in file("."))
       "-language:higherKinds",
       "-language:implicitConversions"
     ),
+    scalacOptions ++= PartialFunction
+      .condOpt(CrossVersion.partialVersion(scalaVersion.value)) {
+        case Some((2, n)) if n >= 13 => Seq("-Ymacro-annotations")
+        case Some((2, v)) if v <= 12 =>
+          Seq("-Ypartial-unification") // 2.13 is partial-unification by default
+      }
+      .toList
+      .flatten,
     Test / javaOptions += "-Duser.timezone=UTC"
   )

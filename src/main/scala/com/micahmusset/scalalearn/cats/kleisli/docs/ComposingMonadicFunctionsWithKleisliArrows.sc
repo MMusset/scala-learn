@@ -1,3 +1,6 @@
+// Composing Monadic Functions with Kleisli Arrows
+// https://sanj.ink/posts/2017-06-07-composing-monadic-functions-with-kleisli-arrows.html
+
 // Functions
 def power2: Int => Double = Math.pow(_, 2)
 
