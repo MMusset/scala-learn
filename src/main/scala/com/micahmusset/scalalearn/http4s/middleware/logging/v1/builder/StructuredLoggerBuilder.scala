@@ -1,16 +1,11 @@
-package com.micahmusset.scalalearn.http4s.middleware.logging.builder
+package com.micahmusset.scalalearn.http4s.middleware.logging.v1.builder
 
 import cats.effect.Sync
 import cats.implicits._
-import com.micahmusset.scalalearn.http4s.middleware.logging.builder.Domain._
-import com.micahmusset.scalalearn.http4s.middleware.logging.builder.contexts.{
-  DefaultRequestLogConfig,
-  DefaultResponseLogConfig,
-  RequestLogConfig,
-  ResponseLogConfig
-}
+import Domain._
+import com.micahmusset.scalalearn.http4s.middleware.logging.v1.builder.contexts.{DefaultRequestLogConfig, DefaultResponseLogConfig, RequestLogConfig, ResponseLogConfig}
 import io.circe.syntax.EncoderOps
-import org.http4s.{ Headers, Request, Response }
+import org.http4s.{Headers, Request, Response}
 
 object StructuredLoggerBuilder {
 

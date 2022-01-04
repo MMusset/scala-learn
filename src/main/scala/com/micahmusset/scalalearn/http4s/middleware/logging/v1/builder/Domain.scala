@@ -1,4 +1,4 @@
-package com.micahmusset.scalalearn.http4s.middleware.logging.builder
+package com.micahmusset.scalalearn.http4s.middleware.logging.v1.builder
 
 object Domain {
 

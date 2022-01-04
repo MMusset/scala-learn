@@ -1,14 +1,14 @@
-package com.micahmusset.scalalearn.http4s.middleware.logging.builder.contexts
+package com.micahmusset.scalalearn.http4s.middleware.logging.v1.builder.contexts
 
 import cats.Applicative
 import cats.effect._
 import cats.implicits._
-import com.micahmusset.scalalearn.http4s.middleware.logging.builder.Domain._
-import com.micahmusset.scalalearn.http4s.middleware.logging.builder.StructuredLoggerBuilder._
-import com.micahmusset.scalalearn.http4s.middleware.logging.builder.contexts.DefaultResponseLogConfig.responseBody
+import com.micahmusset.scalalearn.http4s.middleware.logging.v1.builder.Domain.{Context, Message}
+import com.micahmusset.scalalearn.http4s.middleware.logging.v1.builder.StructuredLoggerBuilder._
+import com.micahmusset.scalalearn.http4s.middleware.logging.v1.builder.contexts.DefaultResponseLogConfig.responseBody
 import io.circe.syntax._
 import org.http4s.circe._
-import org.http4s.{ Request, Response }
+import org.http4s.{Request, Response}
 
 trait ResponseLogConfig[F[_]] {
   def message: (Request[F], Response[F]) => Message

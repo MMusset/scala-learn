@@ -1,9 +1,9 @@
-package com.micahmusset.scalalearn.http4s.middleware.logging
+package com.micahmusset.scalalearn.http4s.middleware.logging.v1
 
 import cats.data.Kleisli
 import cats.effect._
 import cats.implicits._
-import com.micahmusset.scalalearn.http4s.middleware.logging.builder.StructuredLoggerBuilder
+import com.micahmusset.scalalearn.http4s.middleware.logging.v1.builder.StructuredLoggerBuilder
 import io.chrisdavenport.log4cats.StructuredLogger
 import org.http4s._
 
